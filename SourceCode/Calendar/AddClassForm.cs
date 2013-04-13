@@ -76,11 +76,12 @@ namespace Planner
 
             //set current grade to null unless the class is finished, upon which get the entered grade
             string currentGrade = "null";
-            if (chkClassFinished.Checked == true) {
+            if (chkClassFinished.Checked == true) 
+            {
                 //make sure user has selected a value
-                if (cbFinalLetterGrade.Equals("")) {
-                    Util.displayError("Please select a valid letter grade for the class", "Invalid Letter Grade");
-                    return false;
+                if (cbFinalLetterGrade.Equals("")) 
+                {
+                    return raiseInvalidLetterGradeError();
                 }
                 currentGrade = "'" + cbFinalLetterGrade.Text + "'";
             }
@@ -208,6 +209,12 @@ namespace Planner
         private static bool rasiInavlidTimeErorr()
         {
             Util.displayError("Invalid Start and End Times", "Error");
+            return false;
+        }
+
+        private static bool raiseInvalidLetterGradeError()
+        {
+            Util.displayError("Please select a valid letter grade for the class", "Invalid Letter Grade");
             return false;
         }
         #endregion
