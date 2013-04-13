@@ -69,9 +69,9 @@ namespace Planner
             }
 
             //ensure start and end times are legal
-            if (dtClassStartTime.Value.TimeOfDay > dtClassEndTime.Value.TimeOfDay) {
-                Util.displayError("Invalid Start and End Times", "Error");
-                return false;
+            if (dtClassStartTime.Value.TimeOfDay > dtClassEndTime.Value.TimeOfDay) 
+            {
+                return rasiInavlidTimeErorr();
             }
 
             //set current grade to null unless the class is finished, upon which get the entered grade
@@ -202,6 +202,12 @@ namespace Planner
         private static bool raiseInvalidGradeCategory()
         {
             Util.displayRequiredFieldsError("Grade Categories");
+            return false;
+        }
+
+        private static bool rasiInavlidTimeErorr()
+        {
+            Util.displayError("Invalid Start and End Times", "Error");
             return false;
         }
         #endregion
