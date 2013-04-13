@@ -59,8 +59,7 @@ namespace Planner
             //ensure at least one day is checked
             if (checkingClassNames())
             {
-                Util.displayRequiredFieldsError(new string[] { "Class Name", "Days" });
-                return false;
+                return raiseInvalidClassNameError();
             }
 
             //grade categories required if class is not finished
@@ -192,6 +191,12 @@ namespace Planner
             return txtClassName.Text.Equals("") || (chkClassMonday.Checked == false && chkClassTuesday.Checked == false) &&
                             chkClassWednesday.Checked == false && chkClassThursday.Checked == false && chkClassFriday.Checked == false ||
                             (chkClassFinished.Checked == true && cbFinalLetterGrade.Text.Equals(""));
+        }
+
+        private static bool raiseInvalidClassNameError()
+        {
+            Util.displayRequiredFieldsError(new string[] { "Class Name", "Days" });
+            return false;
         }
         #endregion
     }
