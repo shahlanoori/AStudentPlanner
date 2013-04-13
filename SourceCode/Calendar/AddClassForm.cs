@@ -57,9 +57,8 @@ namespace Planner
         private bool saveClass() {
 
             //ensure at least one day is checked
-            if (txtClassName.Text.Equals("") || (chkClassMonday.Checked == false && chkClassTuesday.Checked == false) &&
-                chkClassWednesday.Checked == false && chkClassThursday.Checked == false && chkClassFriday.Checked == false ||
-                (chkClassFinished.Checked == true && cbFinalLetterGrade.Text.Equals(""))) {
+            if (checkingClassNames())
+            {
                 Util.displayRequiredFieldsError(new string[] { "Class Name", "Days" });
                 return false;
             }
@@ -187,5 +186,13 @@ namespace Planner
             methods = addGradeCategories.getMethods();
         }
 
+        #region Methods
+        private bool checkingClassNames()
+        {
+            return txtClassName.Text.Equals("") || (chkClassMonday.Checked == false && chkClassTuesday.Checked == false) &&
+                            chkClassWednesday.Checked == false && chkClassThursday.Checked == false && chkClassFriday.Checked == false ||
+                            (chkClassFinished.Checked == true && cbFinalLetterGrade.Text.Equals(""));
+        }
+        #endregion
     }
 }
