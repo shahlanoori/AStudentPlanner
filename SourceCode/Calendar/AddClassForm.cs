@@ -63,9 +63,9 @@ namespace Planner
             }
 
             //grade categories required if class is not finished
-            if (chkClassFinished.Checked == false && categories.Count == 0) {
-                Util.displayRequiredFieldsError("Grade Categories");
-                return false;
+            if (chkClassFinished.Checked == false && categories.Count == 0)
+            {
+                return raiseInvalidGradeCategory();
             }
 
             //ensure start and end times are legal
@@ -196,6 +196,12 @@ namespace Planner
         private static bool raiseInvalidClassNameError()
         {
             Util.displayRequiredFieldsError(new string[] { "Class Name", "Days" });
+            return false;
+        }
+
+        private static bool raiseInvalidGradeCategory()
+        {
+            Util.displayRequiredFieldsError("Grade Categories");
             return false;
         }
         #endregion
