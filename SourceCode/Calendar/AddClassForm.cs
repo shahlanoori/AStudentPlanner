@@ -93,37 +93,7 @@ namespace Planner
             }
 
             //begin database transaction
-            Database.beginTransaction();
-            Database.modifyDatabase("INSERT INTO Class VALUES (null, " + Util.quote(txtClassName.Text) + ", '" + ctrCredits.Value
-                + "', '" + chkClassMonday.Checked + "', '" + chkClassTuesday.Checked + "', '" + chkClassWednesday.Checked
-                + "', '" + chkClassThursday.Checked + "', '" + chkClassFriday.Checked + "'," + semesterIdValue
-                + ", TIME('" + dtClassStartTime.Value.TimeOfDay + "'), TIME('"
-                + dtClassEndTime.Value.TimeOfDay + "'), " + Util.quote(txtClassLocation.Text) + ", null, null," + currentGrade + ");");
-
-            //get the id of the value just inserted
-            object classID = Database.getInsertedID();
-
-            //insert into database the class professor assignment
-            if (cbClassProfessor.SelectedIndex >= 0) {
-                Database.modifyDatabase("INSERT INTO ClassProfessor VALUES ('" + profId[cbClassProfessor.SelectedIndex] + "', '" + classID + "');");
-            }
-
-            //insert grading scale
-            for (int i = 0; i < gradingScale.Length; i++) {
-                Database.modifyDatabase("INSERT INTO GradingScaleValue VALUES('" + gradeLetter[i] + "', '" + classID + "', '" + gradingScale[i] + "');");
-            }
-
-            //add value for F
-            Database.modifyDatabase("INSERT INTO GradingScaleValue VALUES('F', '" + classID + "', '0.00');");
-
-            //insert grade category
-            for (int i = 0; i < categories.Count; i++) {
-                Database.modifyDatabase("INSERT INTO GradeCategory VALUES('" + categories[i] + "', '" + classID + "', '" +
-                    percentages[i] + "', null, '" + methods[i] + "');");
-            }
-
-            //commit all inserts to database
-            Database.commit();
+            insertIntoDB(currentGrade, semesterIdValue);
 
             //clear all arrays after updating database
             categories.Clear();
@@ -187,6 +157,54 @@ namespace Planner
         }
 
         #region Methods
+        private void insertIntoDB(string currentGrade, string semesterIdValue)
+        {
+            //begin database transaction
+            Database.beginTransaction();
+
+            Database.modifyDatabase(
+                string.Format(@"INSERT INTO Class VALUES (null, {0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}',{7}, TIME('{8}'), TIME('{9}'),
+                                 {10}, null, null,{11});", Util.quote(txtClassName.Text), ctrCredits.Value, chkClassMonday.Checked, chkClassTuesday.Checked,
+                                 chkClassWednesday.Checked, chkClassThursday.Checked, chkClassFriday.Checked, semesterIdValue, dtClassStartTime.Value.TimeOfDay,
+                                 dtClassEndTime.Value.TimeOfDay, Util.quote(txtClassLocation.Text), currentGrade));
+
+            //get the id of the value just inserted
+            object classID = Database.getInsertedID();
+
+            //insert into database the class professor assignment
+            if (cbClassProfessor.SelectedIndex >= 0)
+            {
+                Database.modifyDatabase(
+                    string.Format("INSERT INTO ClassProfessor VALUES ('{0}', '{1}');", profId[cbClassProfessor.SelectedIndex], classID)
+                    );
+            }
+
+            //insert grading scale
+            for (int i = 0; i < GradingScale.Length; i++)
+            {
+
+                Database.modifyDatabase(
+                    string.Format("INSERT INTO GradingScaleValue VALUES('{0}', '{1}', '{2}');", gradeLetter[i].ToString(), classID, GradingScale.code(i).ToInteger())
+                    );
+            }
+
+            //add value for F
+            Database.modifyDatabase(
+                string.Format("INSERT INTO GradingScaleValue VALUES('F', '{0}', '0.00');", classID)
+                );
+
+            //insert grade category
+            for (int i = 0; i < categories.Count; i++)
+            {
+                Database.modifyDatabase(
+                    string.Format("INSERT INTO GradeCategory VALUES('{0}', '{1}', '{2}', null, '{3}');", categories[i], classID, methods[i], percentages[i])
+                    );
+            }
+
+            //commit all inserts to database
+            Database.commit();
+        }
+
         private bool checkingClassNames()
         {
             return txtClassName.Text.Equals("") || (chkClassMonday.Checked == false && chkClassTuesday.Checked == false) &&
