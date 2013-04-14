@@ -52,42 +52,7 @@ namespace Planner
                 cbFinalLetterGrade.SelectedIndex = -1;
             }
         }
-
-        //saves the class information, returning true if successful and false if there was an error
-        private bool saveClass() {
-
-            if (checkingClassNames())
-            {
-                return raiseInvalidClassNameError();
-            }
-
-            if (chkClassFinished.Checked == false && categories.Count == 0)
-            {
-                return raiseInvalidGradeCategory();
-            }
-            if (dtClassStartTime.Value.TimeOfDay > dtClassEndTime.Value.TimeOfDay) 
-            {
-                return rasiInavlidTimeErorr();
-            }
-            string currentGrade = "null";
-            if (chkClassFinished.Checked == true) 
-            {
-                //make sure user has selected a value
-                if (cbFinalLetterGrade.Equals("")) 
-                {
-                    return raiseInvalidLetterGradeError();
-                }
-                currentGrade = "'" + cbFinalLetterGrade.Text + "'";
-            }
-            string semesterIdValue = "null";
-            if (cbSemester.SelectedIndex >= 0) {
-                semesterIdValue = "'" + semesterId[cbSemester.SelectedIndex] + "'";
-            }
-            insertIntoDB(currentGrade, semesterIdValue);
-            clearArrays();
-            return true;
-        }
-
+        
         private void btnSaveClass_Click(object sender, EventArgs e) {
             //save class information and close form if successful
             if (saveClass() == true) {
@@ -142,6 +107,43 @@ namespace Planner
         }
 
         #region Methods
+        //saves the class information, returning true if successful and false if there was an error
+        private bool saveClass()
+        {
+
+            if (checkingClassNames())
+            {
+                return raiseInvalidClassNameError();
+            }
+
+            if (chkClassFinished.Checked == false && categories.Count == 0)
+            {
+                return raiseInvalidGradeCategory();
+            }
+            if (dtClassStartTime.Value.TimeOfDay > dtClassEndTime.Value.TimeOfDay)
+            {
+                return rasiInavlidTimeErorr();
+            }
+            string currentGrade = "null";
+            if (chkClassFinished.Checked)
+            {
+                //make sure user has selected a value
+                if (cbFinalLetterGrade.Equals(""))
+                {
+                    return raiseInvalidLetterGradeError();
+                }
+                currentGrade = "'" + cbFinalLetterGrade.Text + "'";
+            }
+            string semesterIdValue = "null";
+            if (cbSemester.SelectedIndex >= 0)
+            {
+                semesterIdValue = "'" + semesterId[cbSemester.SelectedIndex] + "'";
+            }
+            insertIntoDB(currentGrade, semesterIdValue);
+            clearArrays();
+            return true;
+        }
+
         private void insertIntoDB(string currentGrade, string semesterIdValue)
         {
             //begin database transaction
