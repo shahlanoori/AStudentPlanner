@@ -56,25 +56,19 @@ namespace Planner
         //saves the class information, returning true if successful and false if there was an error
         private bool saveClass() {
 
-            //ensure at least one day is checked
             if (checkingClassNames())
             {
                 return raiseInvalidClassNameError();
             }
 
-            //grade categories required if class is not finished
             if (chkClassFinished.Checked == false && categories.Count == 0)
             {
                 return raiseInvalidGradeCategory();
             }
-
-            //ensure start and end times are legal
             if (dtClassStartTime.Value.TimeOfDay > dtClassEndTime.Value.TimeOfDay) 
             {
                 return rasiInavlidTimeErorr();
             }
-
-            //set current grade to null unless the class is finished, upon which get the entered grade
             string currentGrade = "null";
             if (chkClassFinished.Checked == true) 
             {
@@ -85,21 +79,12 @@ namespace Planner
                 }
                 currentGrade = "'" + cbFinalLetterGrade.Text + "'";
             }
-
-            //check if a semester has been selected
             string semesterIdValue = "null";
             if (cbSemester.SelectedIndex >= 0) {
                 semesterIdValue = "'" + semesterId[cbSemester.SelectedIndex] + "'";
             }
-
-            //begin database transaction
             insertIntoDB(currentGrade, semesterIdValue);
-
-            //clear all arrays after updating database
-            categories.Clear();
-            percentages.Clear();
-            methods.Clear();
-
+            clearArrays();
             return true;
         }
 
@@ -203,6 +188,14 @@ namespace Planner
 
             //commit all inserts to database
             Database.commit();
+        }
+
+        private void clearArrays()
+        {
+            //clear all arrays after updating database
+            categories.Clear();
+            percentages.Clear();
+            methods.Clear();
         }
 
         private bool checkingClassNames()
