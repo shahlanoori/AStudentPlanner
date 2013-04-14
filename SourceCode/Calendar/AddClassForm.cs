@@ -12,12 +12,9 @@ namespace Planner
 {
     public partial class AddClassForm : Form
     {
+        #region Fields
         //grading scale information
         AddGradingScaleForm addGradingScale = new AddGradingScaleForm();
-        private decimal[] gradingScale = {93, 90, 87, 83, 80, 77, 73, 70, 67, 63, 60} ;
-        private string[] gradeLetter = {"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-"};
-
-        //add grade category information
         AddGradeCategoriesForm addGradeCategories = new AddGradeCategoriesForm();
         private List<string> categories = new List<string>();
         private List<double> percentages = new List<double>();
@@ -26,7 +23,9 @@ namespace Planner
         //list of professors id
         private List<int> profId = new List<int>();
         private List<int> semesterId = new List<int>();
+        #endregion
 
+        #region Constructor
         public AddClassForm()
         {
             InitializeComponent();
@@ -40,7 +39,9 @@ namespace Planner
             //dynamically add possible semesters
             Util.addSemesters(cbSemester, semesterId, false);
         }
+        #endregion
 
+        #region Events
         //event handler for whether the class is finished
         private void chkClassFinished_CheckedChanged(object sender, EventArgs e) {
             //if class is finished allow user to enter final grade
@@ -95,7 +96,7 @@ namespace Planner
         private void lnkAddGradingScale_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
             //show the grading scale form and once it is closed, get the grading scale information
             addGradingScale.ShowDialog();
-            gradingScale = addGradingScale.getGradingScale();
+            GradingScale.changeValues(addGradingScale.getGradingScale());
         }
 
         private void lnkAddGradingCategories_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
@@ -105,6 +106,7 @@ namespace Planner
             percentages = addGradeCategories.getPercentages();
             methods = addGradeCategories.getMethods();
         }
+        #endregion
 
         #region Methods
         //saves the class information, returning true if successful and false if there was an error
@@ -171,7 +173,7 @@ namespace Planner
             {
 
                 Database.modifyDatabase(
-                    string.Format("INSERT INTO GradingScaleValue VALUES('{0}', '{1}', '{2}');", gradeLetter[i].ToString(), classID, GradingScale.code(i).ToInteger())
+                    string.Format("INSERT INTO GradingScaleValue VALUES('{0}', '{1}', '{2}');", GradeLetter.code(i).ToString(), classID, GradingScale.code(i).ToInteger())
                     );
             }
 
