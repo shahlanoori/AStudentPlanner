@@ -80,26 +80,22 @@
     <ApplicationIcon>pencil.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.GData.AccessControl, Version=1.7.0.1, Culture=neutral, PublicKeyToken=b4b8eb9a7afc8328, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\Google.GData.AccessControl.dll</HintPath>
+    <Reference Include="Google.GData.AccessControl">
+      <HintPath>..\..\..\..\..\Desktop\Database Planner\Calendar\bin\Debug\Google.GData.AccessControl.dll</HintPath>
     </Reference>
-    <Reference Include="Google.GData.Calendar, Version=1.7.0.1, Culture=neutral, PublicKeyToken=aa6748391206b888, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\Google.GData.Calendar.dll</HintPath>
+    <Reference Include="Google.GData.Calendar">
+      <HintPath>..\..\..\..\..\Desktop\Database Planner\Calendar\bin\Debug\Google.GData.Calendar.dll</HintPath>
     </Reference>
-    <Reference Include="Google.GData.Client, Version=1.7.0.1, Culture=neutral, PublicKeyToken=04a59ca9b0273830, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\Google.GData.Client.dll</HintPath>
+    <Reference Include="Google.GData.Client">
+      <HintPath>..\..\..\..\..\Desktop\Database Planner\Calendar\bin\Debug\Google.GData.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Google.GData.Extensions, Version=1.7.0.1, Culture=neutral, PublicKeyToken=0b4c5df2ebf20876, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\Google.GData.Extensions.dll</HintPath>
+    <Reference Include="Google.GData.Extensions">
+      <HintPath>..\..\..\..\..\Desktop\Database Planner\Calendar\bin\Debug\Google.GData.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <Private>True</Private>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\..\..\..\..\Desktop\Database Planner\Calendar\bin\Debug\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Design" />
@@ -255,6 +251,8 @@
       <DependentUpon>AddGradeCategoriesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GoogleCalendarSync.cs" />
+    <Compile Include="GradeLetter.cs" />
+    <Compile Include="GradingScale.cs" />
     <Compile Include="PlannerSettings.cs" />
     <Compile Include="PlannerSettings1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -399,12 +397,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DayView\Calendar.csproj">
-      <Project>{D17A4D6A-4CAA-4470-8A19-F42463C021FD}</Project>
-      <Name>Calendar</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -447,6 +439,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="pencil.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DayView\Calendar.csproj">
+      <Project>{D17A4D6A-4CAA-4470-8A19-F42463C021FD}</Project>
+      <Name>Calendar</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
